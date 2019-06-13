@@ -38,8 +38,9 @@ class ControllerBase
     else 
       @res["Content-Type"] = content_type
       @res.write(content)
-
       @already_built_response = true
+      debugger
+      @session.store_session(@res)
     end
   end
 
@@ -56,7 +57,9 @@ class ControllerBase
 
   # method exposing a `Session` object
   def session
-
+    @session ||= Session.new(@req)
+    @session.store_session(@res)
+    @session
   end
 
   # use this with the router to call action_name (:index, :show, :create...)
